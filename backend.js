@@ -46,7 +46,7 @@ mongoose.connect(host, function (err) {
     }
 });
 
-backend.listen(8080, err => {
+backend.listen(process.env.PORT || 8080, err => {
     if (err) {
         console.error(err);
     } else {
