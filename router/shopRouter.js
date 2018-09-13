@@ -46,6 +46,7 @@ shopRouter.put('/', (req, res) => {
         .skip(20 * token)
         .limit(20)
         .populate('owner', 'name avaUrl')
+        .populate('productList')
         .then(shops => {
             shopModel.countDocuments()
             .then(count => {
@@ -59,21 +60,38 @@ shopRouter.put('/', (req, res) => {
 //Lấy thông tin của 1 cửa hàng
 shopRouter.get('/:id', (req,res) => {
     shopModel.findById(req.params.id)
-        .populate('owner', "name")
-        .populate('comments.owner', 'name _id')
+        .populate('owner', "name avatarUrl")
+        .populate('comments.owner', 'name _id avatarUrl')
         .populate('productList')
         .populate('listOrder')
         // .populate('listOrder.orderList.product')
         .exec((err, shopFound) => {
-            if(err) res.status(500).send({success: 0, err});
-            if(!shopFound) res.status(404).send({success: 0, message: 'Shop Not Found'});
+            if(err) {
+                res.status(500).send({success: 0, err});
+                return
+            }
+            if(!shopFound){
+                res.status(404).send({success: 0, message: 'Shop Not Found'})
+                return;
+            }
             else {
                 // console.log(shopFound);
                 // console.log("ahih");
                 res.send({success: 1, shopFound});
+                return
             };
         })
         // .catch(err => res.status(500).send({success: 0, err}));
+})
+shopRouter.get("/", (req, res) => {
+    shopModel.find({})
+        .populate('owner',"avatarUrl")
+        .populate('productList')
+        .then(shopFound => {
+            res.status(201).send({ success: 1, shopFound })
+            return 
+        })
+        .catch((err) => {res.status(500).send({ success: 0, err });return });
 })
 
 
