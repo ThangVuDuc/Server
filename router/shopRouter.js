@@ -3,7 +3,6 @@ const shopRouter = express.Router();
 const shopModel = require('../model/ShopModel');
 
 shopRouter.use((req, res, next) => {
-    console.log("Router api");
     next();
 })
 
