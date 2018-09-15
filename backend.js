@@ -37,8 +37,7 @@ backend.use(passport.initialize());
 backend.use(passport.session());
 
 backend.use((req, res, next) => {
-    console.log("a", req.user)
-    // console.log(req.session);
+   
     next();
 })
 
