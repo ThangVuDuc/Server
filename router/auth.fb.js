@@ -14,6 +14,10 @@ module.exports = function (passport) {
         return res.redirect('https://localhost:3000');
     });
 
+    router.get('/abc', (req, res) => {
+        res.send('abc');
+    })
+
     router.get('/auth/fb/callback', function (req, res, next) {
         passport.authenticate('facebook', function (err, user, info) {
             if (err) {
@@ -41,7 +45,7 @@ module.exports = function (passport) {
                 req.session.save(function(err){
                     if(err) return res.send("loi")
                     console.log(req.session)
-                    return res.redirect('https://localhost:3000');
+                    res.json({session: req.session});
                 });
                  
             });
@@ -50,6 +54,7 @@ module.exports = function (passport) {
         })(req, res, next);
     });
     router.get('/auth/fb/isLogin',function(req,res){
+        console.log("Islogin");
         console.log(req.session)
     });
     // router.get('/auth/fb/isLogin',checkAuthentication,function(req,res){
@@ -67,7 +72,7 @@ module.exports = function (passport) {
     passport.use(new FacebookStrategy({
         clientID: "452497568573549",
         clientSecret: "7562251f160675be7f3d6c1e129cd9dd",
-        callbackURL: domain.domain + "/auth/fb/callback",
+        callbackURL: domain.domain + "/api/auth/fb/callback",
         profileFields: ["email", "displayName", "gender", "picture"],
         'enableProof': true
     },
