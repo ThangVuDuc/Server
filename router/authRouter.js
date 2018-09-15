@@ -2,7 +2,13 @@ const express = require("express");
 const authRouter = express();
 const userModel = require("../model/userModel");
 const lodash = require('lodash');
+const domain = require("../config/domain")
+const FacebookStrategy = require('passport-facebook').Strategy;
 
+const passport = require("passport")
+authRouter.use((req, res, next) => {
+    next();
+})
 
 //Taoj session
 authRouter.post("/", (req, res) => {
@@ -45,9 +51,96 @@ authRouter.put("/", (req, res) => {
 //Xóa session
 authRouter.delete('/', (req, res) => {
     req.session.destroy(err => {
-        if(err) res.status(500).send({success: 0, err});
-        else res.send({success: 1, message: "Remove success"});
+        if (err) res.status(500).send({ success: 0, err });
+        else res.send({ success: 1, message: "Remove success" });
     })
 })
 
+// =========================================================================
+// FACEBOOK ================================================================
+// =========================================================================
+
+
+// authRouter.use(passport.initialize());
+// authRouter.use(passport.session());
+
+
+// authRouter.get("/fb", passport.authenticate('facebook', { scope: ['email'] }));
+// // backend.get("/auth/fb/callback",passport.authenticate('facebook',{
+// //     failureRedirect:"https://localhost:3000",successRedirect:"https://localhost:3000"
+// // }))
+// authRouter.get('/logout', function (req, res, next) {
+//     console.log('vao logout');
+//     req.logout();
+//     return res.send('logout ok');
+// });
+
+// authRouter.get('/fb/callback', function (req, res, next) {
+//     passport.authenticate('facebook', function (err, user, info) {
+//         if (err) {
+//             console.log('err tai auth/fb/callback');
+//             console.log(err);
+//             return next({
+//                 'err': err
+//             });
+//         }
+
+//         if (!user) {
+//             console.log('no user');
+//             return next({
+//                 'err': 'nouser'
+//             });
+//         }
+
+//         req.logIn(user, function (err) {
+//             if (err) {
+//                 console.log('error in req login');
+//                 return res.redirect('/');
+//             }
+//             console.log(req.session)
+//             return res.redirect('https://localhost:3000');
+//         });
+
+
+//     })(req, res, next);
+// });
+
+// passport.use(new FacebookStrategy({
+//     clientID: "452497568573549",
+//     clientSecret: "7562251f160675be7f3d6c1e129cd9dd",
+//     callbackURL: domain.domain + "/auth/fb/callback",
+//     profileFields: ["email", "displayName", "gender", "picture"],
+//     'enableProof': true
+// },
+//     (accessToken, refreshToken, profile, done) => {
+//         // console.log(profile);
+//         userModel.findOne({ facebookID: profile._json.id }, (err, user) => {
+//             if (err) return done(err);
+//             if (user){
+//                 console.log("user ton tai")
+//                 return done(null, user);
+//             } 
+//             const neuUser = new userModel({
+//                 facebookID: profile._json.id,
+//                 name: profile._json.name,
+//                 email: profile._json.email,
+//                 avatarUrl: profile._json.picture.data.url,
+//                 gender: profile._json.gender,
+//             })
+//             neuUser.save((err) => {
+//                 console.log("tao moi user")
+//                 return done(null, user)
+//             })
+//         })
+//     }
+// ));
+
+// passport.serializeUser((user, done) => {
+//     done(null, user.id)
+// })
+// passport.deserializeUser((id, done) => {
+//     userModel.findOne({ facebookID: id }, (err, user) => {
+//         done(null, user);
+//     })
+// })
 module.exports = authRouter;
