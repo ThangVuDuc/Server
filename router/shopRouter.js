@@ -19,8 +19,8 @@ shopRouter.post('/', (req, res) => {
 
 //Thay đổi thông tin shop
 shopRouter.put('/:id', (req,res) => {
+    console.log('efjnvjdnjnvj')
     const updateShop = {title, description, openOrClose, comments, productList, listOrder} = req.body;
-    console.log(updateShop[title]);
     shopModel.findById(req.params.id)
         .then(shopFound => {
             if(!shopFound) res.status(404).send({success: 0, message: 'Shop Not Found'});

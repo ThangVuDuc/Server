@@ -31,8 +31,8 @@ backend.use(session({
     }
 }))
 
-backend.use(bodyParser.urlencoded({ extended: false }));
-backend.use(bodyParser.json());
+backend.use(bodyParser.urlencoded({ extended: false, limit:'10mb' }));
+backend.use(bodyParser.json({limit: '10mb'}));
 backend.use(passport.initialize());
 backend.use(passport.session());
 
