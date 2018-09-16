@@ -5,6 +5,7 @@ const userModel = require("../model/userModel");
 //Lấy thông tin người dùng
 userRouter.get("/:userId", (req, res) => {
     userModel.find({facebookID:req.params.userId}, (err, user) => {
+        console.log(user)
         if (err) res.status(500).send({ success: 0, err })
         else res.send({ success: 1, user })
     })

@@ -8,7 +8,7 @@ module.exports = function (passport) {
 
     router.get("/auth/fb", passport.authenticate('facebook', { scope: ['email'] }));
     router.get('/auth/logout', function (req, res, next) {
-        console.log('vao logout');
+        // console.log('vao logout');
         req.logout();
         usertemp=null;
         return res.redirect('https://localhost:3000');
@@ -21,7 +21,7 @@ module.exports = function (passport) {
     router.get('/auth/fb/callback', function (req, res, next) {
         passport.authenticate('facebook', function (err, user, info) {
             if (err) {
-                console.log('err tai auth/fb/callback');
+                // console.log('err tai auth/fb/callback');
                 console.log(err);
                 return next({
                     'err': err
@@ -44,7 +44,7 @@ module.exports = function (passport) {
                 // console.log(req.user)
                 req.session.save(function(err){
                     if(err) return res.send("loi")
-                    console.log(req.session)
+                    // console.log(req.session)
                     res.json({session: req.session});
                 });
                  
@@ -54,8 +54,8 @@ module.exports = function (passport) {
         })(req, res, next);
     });
     router.get('/auth/fb/isLogin',function(req,res){
-        console.log("Islogin");
-        console.log(req.session)
+        // console.log("Islogin");
+        // console.log(req.session)
     });
     // router.get('/auth/fb/isLogin',checkAuthentication,function(req,res){
     //     //do something only if user is authenticated

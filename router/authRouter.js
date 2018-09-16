@@ -55,7 +55,7 @@ authRouter.post("/", (req, res) => {
         orderList: orderList,
         note: note
     }
-    console.log(req.session);
+    // console.log(req.session);
     res.send({ success: 1, message: "success" })
 });
 // authRouter.post("/user", (req, res) => {
