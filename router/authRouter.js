@@ -36,13 +36,13 @@ authRouter.post('/logout', (req, res) => {
         if (err) res.status(500).send({ success: 0, err });
         else res.send({ success: 1, session: req.session });
     })
-})
+}) 
 authRouter.get('/isLogin',(req,res) => {
     if(req.session.user){
         res.send({success:1,user:req.session.user})
     }
     else res.send({success:0})
-    
+     
 });
 
 //Taoj session
