@@ -56,7 +56,7 @@ authRouter.post("/", (req, res) => {
         note: note
     }
     // console.log(req.session);
-    res.send({ success: 1, message: "success" })
+    res.send({ success: 1, order: req.session.order })
 });
 // authRouter.post("/user", (req, res) => {
 //     const { user } = req.body;
@@ -67,15 +67,23 @@ authRouter.post("/", (req, res) => {
 
 
 //Lấy session
+// authRouter.get("/", (req, res) => {
+//     console.log(req.session);
+//     if (lodash.isUndefined(req.session) && lodash.isUndefined(req.session.order)) {
+//         res.status(404).send({ success: 0, message: "user not found" });
+//     } else {
+//         res.send({ success: 1, orderData: req.session.order });
+//     }
+// });
+
 authRouter.get("/", (req, res) => {
     console.log(req.session);
     if (lodash.isUndefined(req.session) && lodash.isUndefined(req.session.order)) {
         res.status(404).send({ success: 0, message: "user not found" });
     } else {
-        res.send({ success: 1, orderData: req.session.order });
+        res.send({ success: 1, session: req.session });
     }
 });
-
 //Thay đổi session
 authRouter.put("/", (req, res) => {
     const updateOrder = { address, phoneNumber, orderList, note } = req.body;

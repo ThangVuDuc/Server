@@ -21,6 +21,6 @@ productRouter.post("/", (req, res) => {
         .then(productCreated => res.send({success: 1, productCreated}))
         .catch(err => res.status(500).send({success: 0, err})
     )
-})
+}) 
 
 module.exports = productRouter;

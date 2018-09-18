@@ -58,7 +58,7 @@ shopRouter.put('/', (req, res) => {
         })
         .catch(err => res.status(500).send({ success: 0, err }));
 });
-
+ 
 //Lấy thông tin của 1 cửa hàng
 shopRouter.get('/:id', (req, res) => {
     shopModel.findById(req.params.id)
