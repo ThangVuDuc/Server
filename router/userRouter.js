@@ -5,14 +5,15 @@ const userModel = require("../model/userModel");
 //Lấy thông tin người dùng
 userRouter.get("/:userIdfb", (req, res) => {
     userModel.find({facebookID:req.params.userIdfb}, (err, user) => {
-        console.log(user)
         if (err) res.status(500).send({ success: 0, err })
         else res.send({ success: 1, user })
     })
 }) 
-userRouter.get("/?userId=", (req, res) => {
-    userModel.find({facebookID:req.query.userId}, (err, user) => {
-        console.log(user)
+
+
+userRouter.get("/info/:id", (req, res) => {
+    console.log(req.params.id)
+    userModel.findById(req.params.id, (err, user) => {
         if (err) res.status(500).send({ success: 0, err })
         else res.send({ success: 1, user })
     })
@@ -66,6 +67,7 @@ userRouter.put('/:userId', (req, res) => {
 
 //Lấy tất cả User
 userRouter.get('/', (req,res) => {
+    console.log('aaaa')
     userModel.find({})
         .then(userFound => {
             res.status(201).send({ success: 1, userFound })

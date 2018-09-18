@@ -20,8 +20,6 @@ shopRouter.post('/', (req, res) => {
 //Thay đổi thông tin shop
 shopRouter.put('/:id', (req, res) => {
     const updateShop = { title, description, openOrClose, comments, productList, listOrder } = req.body;
-    console.log(updateShop[title]);
-
     shopModel.findById(req.params.id)
         .populate('owner', "name avatarUrl")
         .populate('comments.owner', 'name _id avatarUrl')
@@ -79,7 +77,7 @@ shopRouter.get('/:id', (req, res) => {
                 return;
             }
             else {
-                // console.log(shopFound);
+                console.log(shopFound);
                 // console.log("ahih");
                 res.send({ success: 1, shopFound });
                 return
