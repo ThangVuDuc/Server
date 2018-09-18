@@ -21,6 +21,7 @@ shopRouter.post('/', (req, res) => {
 shopRouter.put('/:id', (req, res) => {
     const updateShop = { title, description, openOrClose, comments, productList, listOrder } = req.body;
     console.log(updateShop[title]);
+
     shopModel.findById(req.params.id)
         .populate('owner', "name avatarUrl")
         .populate('comments.owner', 'name _id avatarUrl')
