@@ -13,6 +13,15 @@ productRouter.get("/:id", (req, res) => {
         })
         .catch(err => res.status(500).send({success: 0, err}));
 })
+productRouter.get("/", (req, res) => {
+    productModel.find({})
+        .populate('shopID', 'title description')
+        .then(productFound => {
+            if(!productFound) res.status(404).send({success: 0, message: 'Product Not Found'})
+            else res.send({success: 1, productFound});
+        })
+        .catch(err => res.status(500).send({success: 0, err}));
+})
 
 //Tạo sản phẩm
 productRouter.post("/", (req, res) => {

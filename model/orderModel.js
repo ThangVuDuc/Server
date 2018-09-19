@@ -6,12 +6,14 @@ const orderProductSchema = new Schema({
     amount: { type: Number },
     note: { type: String }
 });
-
+ 
 const orderSchema = new Schema({
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     address: { type: String, require: true },
     phoneNumber: { type: Number },
-    orderList: [orderProductSchema]
+    orderList: [orderProductSchema] 
+}, {
+    timestamps: true
 });
 
 module.exports = mongosee.model("Order", orderSchema);

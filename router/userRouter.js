@@ -34,7 +34,7 @@ userRouter.get("/:userId/shop", (req, res) => {
 //Lấy thông tin các sản phẩm đã order
 userRouter.get("/:userId/order", (req, res) => {
     userModel.findById(req.params.userId)
-        .populate('order')
+        .populate('order') 
         .exec((err, user) => {
             if (err) res.status(500).send({ success: 0, err })
             else {

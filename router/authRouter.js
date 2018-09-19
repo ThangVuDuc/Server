@@ -88,13 +88,13 @@ authRouter.get("/", (req, res) => {
 authRouter.put("/", (req, res) => {
     const updateOrder = { address, phoneNumber, orderList, note } = req.body;
     let orderSession = req.session.order;
-    for (const key in orderSession) {
+    for (const key in updateOrder) {
         if (updateOrder[key]) {
             orderSession[key] = updateOrder[key];
         }
     }
     req.session.order = orderSession;
-    res.send({ success: 1, session: orderSession });
+    res.send({ success: 1, session: req.session });
 })
 
 //Xóa session
