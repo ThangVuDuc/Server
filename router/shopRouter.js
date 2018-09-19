@@ -40,6 +40,23 @@ shopRouter.put('/:id', (req, res) => {
         .catch(err => res.send({ success: 0, err }));
 })
 
+//Thêm order cho shop
+shopRouter.put('/:id/order', (req, res) => {
+    console.log(req.body)
+    shopModel.findById(req.params.id)
+        .then(shopFound => {
+            console.log(shopFound)
+            if (!shopFound) res.status(404).send({ success: 0, message: 'Shop Not Found' });
+            else {
+                shopFound.listOrder.push(req.body.orderID);
+                console.log(shopFound)
+                return shopFound.save();
+            }
+        })
+        .then(shopUpdated => res.send({ success: 1, shopUpdated }))
+        .catch(err => res.send({ success: 0, err }));
+})
+
 //Lấy tất cả các shop bán hàng sắp xếp từ mới nhất, Giới hạn 20 cửa hàng mỗi request và có NextPageToken (0, 1, 2, 3, ...)
 shopRouter.put('/', (req, res) => {
     let token = (req.body.nextPageToken) ? req.body.nextPageToken : 0;
@@ -85,6 +102,10 @@ shopRouter.get('/:id', (req, res) => {
         })
     // .catch(err => res.status(500).send({success: 0, err}));
 })
+
+
+
+
 shopRouter.get("/", (req, res) => {
     shopModel.find({})
         .populate('owner', "avatarUrl")
