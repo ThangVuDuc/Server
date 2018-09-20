@@ -14,11 +14,11 @@ authRouter.post('/login',(req,res) => {
     req.session.user=facebookID;
     userModel.find({facebookID:req.session.user})
         .then(userFound => {
-            if(userFound){
+            if(typeof userFound !== 'undefined'&& userFound > 0){
                 console.log("user ton tai")
                 res.status(201).send({ success: 1, userFound })
             }
-            else if(!userFound){
+            else{
                 console.log("tao moi")
                 userModel.create(
                     { facebookID, name, email, avatarUrl, gender },
@@ -38,6 +38,7 @@ authRouter.post('/logout', (req, res) => {
     })
 }) 
 authRouter.get('/isLogin',(req,res) => {
+    console.log(req.session.user)
     if(req.session.user){
         res.send({success:1,user:req.session.user})
     }
