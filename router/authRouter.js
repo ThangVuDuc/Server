@@ -5,17 +5,31 @@ const lodash = require('lodash');
 const domain = require("../config/domain")
 const FacebookStrategy = require('passport-facebook').Strategy;
 
+
+
 const passport = require("passport")
+
+
+//chua fix neu nguoi dung thay doi thong tin thi load lai ngay, (phai dang xuat ra dang nhap lai moi dc)
 authRouter.use((req, res, next) => {
     next();
 })
 authRouter.post('/login',(req,res) => {
     const { facebookID, name, email, avatarUrl, gender } = req.body
     req.session.user=facebookID;
-    userModel.find({facebookID:req.session.user})
+    userModel.findOne({facebookID:req.session.user})
         .then(userFound => {
-            if(typeof userFound !== 'undefined'&& userFound > 0){
+            if(userFound){
                 console.log("user ton tai")
+                const userUpdate = { name, email, avatarUrl, gender }
+                console.log(userUpdate)
+                for (const key in userUpdate) {
+                    if (userUpdate[key]) {
+                        userFound[key] = userUpdate[key];
+                    }
+                }
+                console.log(userFound)
+                userFound.save();
                 res.status(201).send({ success: 1, userFound })
             }
             else{
